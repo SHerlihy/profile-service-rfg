@@ -1,0 +1,6 @@
+POST http://127.0.0.1:5010/api/v1/profile/create
+Content-type: application/json
+
+{
+    "profileKey": "123"
+}

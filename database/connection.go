@@ -8,12 +8,12 @@ import (
 
 var DBClient *redis.Client
 
-func Connect(){
-    dsn := os.Getenv("DSN")
-    opt, err := redis.ParseURL(dsn)
-if err != nil {
-	panic(err)
-}
+func Connect() {
+	dsn := os.Getenv("DSN")
+	opt, err := redis.ParseURL(dsn)
+	if err != nil {
+		panic(err)
+	}
 
-    DBClient = redis.NewClient(opt)
+	DBClient = redis.NewClient(opt)
 }
