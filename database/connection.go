@@ -22,12 +22,12 @@ func Connect() {
         Username: os.Getenv("DATABASE_USER"),
         Password: os.Getenv("DATABASE_PASSWORD"),
         DB: 0,
+    }
      //   TLSConfig: &tls.Config{
      //    MinVersion:   tls.VersionTLS12,
      //    Certificates: []tls.Certificate{cert},
      //    RootCAs:      caCertPool,
      //   },
-    }
 //	if err != nil {
 //		panic(err)
 //	}

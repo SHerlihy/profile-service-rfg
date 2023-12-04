@@ -1,27 +1,21 @@
 package main
 
 import (
-	"flag"
 	"os"
 
 	"github.com/SHerlihy/profile-service-rfg/database"
-	"github.com/SHerlihy/profile-service-rfg/env_vars"
 	"github.com/SHerlihy/profile-service-rfg/routes"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
+var ALLOWED_ORIGINS string
+var DATABASE_ADDRESS string
+var DATABASE_USER string
+var DATABASE_PASSWORD string
+
 func main() {
-	env := flag.String("e", "dev", "environment: dev|prod")
-	flag.Parse()
-
-	if *env == "dev" {
-		env_vars.DevEnv()
-	}
-
-	if *env == "prod" {
-		env_vars.ProdEnv()
-	}
+	initEnvVars()
 
 	database.Connect()
 
@@ -38,4 +32,11 @@ func main() {
 	routes.Setup(api)
 
 	app.Listen(":5010")
+}
+
+func initEnvVars() {
+	os.Setenv("ALLOWED_ORIGINS", ALLOWED_ORIGINS)
+	os.Setenv("DATABASE_ADDRESS", DATABASE_ADDRESS)
+	os.Setenv("DATABASE_USER", DATABASE_USER)
+	os.Setenv("DATABASE_PASSWORD", DATABASE_PASSWORD)
 }
