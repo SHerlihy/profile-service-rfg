@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"time"
@@ -30,16 +29,16 @@ func Create(c *fiber.Ctx) error {
     profBytes, err := json.Marshal(profile)
     profileStr := string(profBytes)
 
-	expiration, _ := time.ParseDuration("1s")
+	expiration, _ := time.ParseDuration("10s")
 
-	ctx := context.Background()
-	err = database.DBClient.Set(ctx, data["profileKey"], profileStr, expiration).Err()
+	err = database.DBClient.Set(c.Context(), data["profileKey"], profileStr, expiration).Err()
 	if err != nil {
-        fmt.Println( err)
+        fmt.Println("set failed")
+        fmt.Println(err)
 		panic(err)
 	}
 
-	val, err := database.DBClient.Get(ctx, data["profileKey"]).Result()
+	val, err := database.DBClient.Get(c.Context(), data["profileKey"]).Result()
 	switch {
 	case err == redis.Nil:
 		c.SendStatus(204)
