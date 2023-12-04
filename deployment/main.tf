@@ -127,4 +127,20 @@ resource "terraform_data" "provision_server" {
             "nohup ssh -i '/home/ec2-user/.ssh/id_rsa' -f -N -T -L 6380:${var.redis_endpoint}:6379 ${var.proxy_access} -o StrictHostKeyChecking=no ServerAliveInterval=10 ClientAliveInterval=10 ServerAliveCountMax=3 ExitOnForwardFailure=yes &>> /var/log/ssh_fwd_proxy.txt"
     ]
   }
+
+
+    provisioner "file" {
+        source = "./main"
+        destination = "/home/ec2-user/main"
+    }
+
+    provisioner "remote-exec" {
+        inline =[
+      "sudo touch /var/log/server_out.txt",
+      "sudo chmod 666 /var/log/server_out.txt",
+            "chmod +x /home/ec2-user/main",
+            "nohup /home/ec2-user/main &>> /var/log/server_out.txt &"
+        ]
+    }
+
 }
